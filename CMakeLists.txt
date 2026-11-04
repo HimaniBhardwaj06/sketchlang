@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(sketch_core src/lexer.cpp)
+add_library(sketch_core src/lexer.cpp src/parser.cpp src/printer.cpp)
 target_include_directories(sketch_core PUBLIC src)
 target_compile_options(sketch_core PRIVATE -Wall -Wextra -Wpedantic)
 
@@ -20,7 +20,7 @@ if(SKETCH_BUILD_TESTS)
     GIT_TAG v3.5.2)
   FetchContent_MakeAvailable(Catch2)
 
-  add_executable(tests tests/test_lexer.cpp)
+  add_executable(tests tests/test_lexer.cpp tests/test_parser.cpp)
   target_link_libraries(tests PRIVATE sketch_core Catch2::Catch2WithMain)
 
   include(CTest)

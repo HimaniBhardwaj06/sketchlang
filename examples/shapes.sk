@@ -1,0 +1,11 @@
+// reusable row of circles
+fn row(y) {
+  let x = 10
+  repeat 4 {
+    circle(x, y, 8)
+    x = x + 20
+  }
+}
+
+row(20)
+row(40)

@@ -1,0 +1,6 @@
+// draw a row of circles
+let x = 10
+repeat 4 {
+  circle(x, 40, 8)
+  x = x + 20
+}

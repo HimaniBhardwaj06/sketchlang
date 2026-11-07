@@ -1,0 +1,16 @@
+// concentric rings of small circles
+fn ring(cx, cy, r, n) {
+  let k = 0
+  repeat n {
+    let a = k * 6.2831853 / n
+    circle(cx + cos(a) * r, cy + sin(a) * r, 3)
+    k = k + 1
+  }
+}
+
+let r = 8
+repeat 5 {
+  color(r * 6, 80, 255 - r * 5)
+  ring(50, 50, r, 8 + r)
+  r = r + 8
+}

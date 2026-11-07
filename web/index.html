@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sketchlang playground</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="logo">&#9998;</span>
+      <h1>Sketchlang</h1>
+      <span class="tag">C++ &rarr; WebAssembly</span>
+    </div>
+    <div class="controls">
+      <select id="examples" aria-label="Example programs"></select>
+      <button id="btn-run" class="primary" title="Run (Ctrl/Cmd+Enter)">&#9654; Run</button>
+      <button id="btn-step" title="Execute one instruction (Shift+Enter)">Step</button>
+      <button id="btn-play" title="Step automatically">&#9205; Play</button>
+      <select id="speed" aria-label="Play speed">
+        <option value="2">Slow</option>
+        <option value="6" selected>Normal</option>
+        <option value="60">Fast</option>
+        <option value="600">Very fast</option>
+      </select>
+      <button id="btn-reset" title="Recompile and restart">&#8635; Reset</button>
+      <button id="btn-link" title="Copy a link to this program">Copy link</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="column">
+      <div class="panel">
+        <div class="panel-title">Code <span id="stats" class="muted"></span></div>
+        <div id="editor">
+          <div id="gutter" aria-hidden="true"></div>
+          <div id="textwrap">
+            <div id="hl"></div>
+            <textarea id="src" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Source code"></textarea>
+          </div>
+        </div>
+        <details class="cheat">
+          <summary>Language reference</summary>
+          <div class="cheat-body">
+            <p><code>let x = 5</code> &nbsp; <code>x = x + 1</code> &nbsp; <code>repeat 10 { ... }</code> &nbsp; <code>while c { ... }</code> &nbsp; <code>if c { ... } else { ... }</code> &nbsp; <code>fn name(a, b) { return a + b }</code></p>
+            <p>Drawing (canvas is 100 &times; 100): <code>circle(x, y, r)</code> <code>rect(x, y, w, h)</code> <code>line(x1, y1, x2, y2)</code> <code>color(r, g, b)</code></p>
+            <p>Other: <code>print(v)</code> <code>sin</code> <code>cos</code> <code>sqrt</code> <code>abs</code> <code>floor</code> <code>random()</code></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="panel">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="bytecode" role="tab">Bytecode</button>
+          <button class="tab" data-tab="ast" role="tab">AST</button>
+          <button class="tab" data-tab="tokens" role="tab">Tokens</button>
+        </div>
+        <div id="pane-bytecode" class="pane"></div>
+        <div id="pane-ast" class="pane" hidden></div>
+        <div id="pane-tokens" class="pane" hidden></div>
+      </div>
+    </section>
+
+    <section class="column">
+      <div class="panel">
+        <div class="panel-title">Output</div>
+        <canvas id="cv" width="500" height="500" aria-label="Drawing output"></canvas>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Virtual machine <span id="status" class="badge">not started</span></div>
+        <div class="vm-grid">
+          <div>
+            <div class="sub-title">Stack <span class="muted">(top first)</span></div>
+            <div id="stack" class="stack"></div>
+          </div>
+          <div>
+            <div class="sub-title">Call frames</div>
+            <div id="frames" class="frames"></div>
+            <div class="sub-title">Globals</div>
+            <table id="globals" class="globals"></table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Console</div>
+        <div id="console" class="console"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="examples.js"></script>
+  <script src="sketch.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -10,7 +10,8 @@ endif()
 
 add_library(sketch_core
   src/lexer.cpp src/parser.cpp src/printer.cpp
-  src/bytecode.cpp src/compiler.cpp src/vm.cpp src/natives.cpp src/render.cpp)
+  src/bytecode.cpp src/compiler.cpp src/vm.cpp src/natives.cpp src/render.cpp
+  src/json.cpp src/api.cpp)
 target_include_directories(sketch_core PUBLIC src)
 target_compile_options(sketch_core PRIVATE -Wall -Wextra -Wpedantic)
 
@@ -25,7 +26,7 @@ if(SKETCH_BUILD_TESTS)
     GIT_TAG v3.5.2)
   FetchContent_MakeAvailable(Catch2)
 
-  add_executable(tests tests/test_lexer.cpp tests/test_parser.cpp tests/test_vm.cpp)
+  add_executable(tests tests/test_lexer.cpp tests/test_parser.cpp tests/test_vm.cpp tests/test_api.cpp)
   target_link_libraries(tests PRIVATE sketch_core Catch2::Catch2WithMain)
 
   include(CTest)

@@ -51,10 +51,14 @@ public:
 
     // ---- services used by native functions
     void addDraw(DrawCmd::Kind kind, double a, double b, double c, double d) {
+        if (draws_.size() >= kMaxDraws) throw RuntimeError{"Too many shapes (limit is 100000)"};
         draws_.push_back(DrawCmd{kind, a, b, c, d, cr_, cg_, cb_});
     }
     void setColor(uint8_t r, uint8_t g, uint8_t b) { cr_ = r; cg_ = g; cb_ = b; }
-    void emitText(std::string line) { output_.push_back(std::move(line)); }
+    void emitText(std::string line) {
+        if (output_.size() >= kMaxOutputLines) throw RuntimeError{"Too much output (limit is 10000 lines)"};
+        output_.push_back(std::move(line));
+    }
     double nextRandom();  // uniform in [0, 1), deterministic
 
 private:
@@ -65,6 +69,8 @@ private:
     Value pop() { Value v = stack_.back(); stack_.pop_back(); return v; }
 
     static constexpr size_t kMaxFrames = 256;
+    static constexpr size_t kMaxDraws = 100000;
+    static constexpr size_t kMaxOutputLines = 10000;
 
     const Module& mod_;
     std::vector<Value> stack_;

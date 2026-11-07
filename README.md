@@ -9,8 +9,9 @@ browser playground that shows the tokens, AST, bytecode and VM state live.
 - [x] Parser (AST)
 - [x] Bytecode compiler
 - [x] VM
-- [ ] WebAssembly build
-- [ ] Browser playground
+- [x] JSON output and C API for the browser
+- [ ] WebAssembly build verified in a browser (run ./build-wasm.sh)
+- [x] Browser playground (web/)
 
 ## Build
     cmake -S . -B build
@@ -22,3 +23,17 @@ browser playground that shows the tokens, AST, bytecode and VM state live.
     ./build/sketch --svg out.svg examples/rings.sk   # draws a picture
     ./build/sketch --stats examples/bench.sk      # instruction count and speed
     ctest --test-dir build --output-on-failure
+
+## Browser playground
+Needs Emscripten once: `brew install emscripten`
+
+    ./build-wasm.sh     # builds web/sketch.js + web/sketch.wasm
+    ./serve.sh          # then open http://localhost:8000
+
+The playground shows the source, the bytecode with the current instruction highlighted,
+the AST, the tokens, the VM stack, call frames, globals, console output and the drawing.
+Use Step / Play to watch the program execute one instruction at a time.
+
+## Architecture
+    source -> Lexer -> tokens -> Parser -> AST -> Compiler -> bytecode -> VM -> draw commands
+                                                                   \-> JSON (api.cpp) -> browser UI

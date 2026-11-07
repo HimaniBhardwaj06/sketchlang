@@ -47,6 +47,11 @@ struct Module {
 
 const char* opName(Op op);
 std::string formatValue(const Value& v, const std::vector<std::string>& strings);
+struct InstrView {
+    std::string operand;  // e.g. "3"
+    std::string note;     // e.g. "x" or "circle (3 args)" or "10"
+};
+InstrView describeInstr(const Module& m, const Function& fn, size_t ip);
 std::string disassembleInstr(const Module& m, const Function& fn, size_t ip);
 std::string disassemble(const Module& m);
 

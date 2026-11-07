@@ -53,7 +53,7 @@ std::string formatValue(const Value& v, const std::vector<std::string>& strings)
     return "?";
 }
 
-std::string disassembleInstr(const Module& m, const Function& fn, size_t ip) {
+InstrView describeInstr(const Module& m, const Function& fn, size_t ip) {
     const Instr& in = fn.code[ip];
     std::string operand, note;
     switch (in.op) {
@@ -87,6 +87,14 @@ std::string disassembleInstr(const Module& m, const Function& fn, size_t ip) {
         default:
             break;
     }
+    return InstrView{operand, note};
+}
+
+std::string disassembleInstr(const Module& m, const Function& fn, size_t ip) {
+    const Instr& in = fn.code[ip];
+    InstrView view = describeInstr(m, fn, ip);
+    const std::string& operand = view.operand;
+    const std::string& note = view.note;
     std::ostringstream os;
     os << std::setfill('0') << std::setw(4) << ip << std::setfill(' ')
        << "  L" << std::left << std::setw(4) << fn.lines[ip]

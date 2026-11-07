@@ -203,3 +203,8 @@ TEST_CASE("disassembler names instructions and operands") {
     REQUIRE(has(text, "print"));
     REQUIRE(has(text, "CALL "));
 }
+
+TEST_CASE("runaway drawing and printing are capped") {
+    REQUIRE(has(run("repeat 200000 { circle(1, 1, 1) }", 100'000'000).error, "Too many shapes"));
+    REQUIRE(has(run("repeat 20000 { print(1) }", 100'000'000).error, "Too much output"));
+}

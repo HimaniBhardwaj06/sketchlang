@@ -1,3 +1,5 @@
 build/
 .cache/
 *.o
+web/sketch.js
+web/sketch.wasm
